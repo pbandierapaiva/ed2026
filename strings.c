@@ -6,16 +6,30 @@
 
 int main() {
 
-    char str[MAXIMOSTR];
-
-    printf("Qual o seu nome: ");
-    fgets( str, MAXIMOSTR, stdin);
-    printf("\nAlo %s!\n\n", str);
+    char cadcar[MAXIMOSTR];
+    int i;
 
 
     printf("Qual o seu nome: ");
-    scanf( "%s", str);
-    printf("\nAlo %s!\n\n", str);
+    fgets( cadcar, MAXIMOSTR, stdin);
+    printf("\nAlo %s!\n\n", cadcar);
 
+    printf("Qual o seu nome: ");
+    scanf( "%s", cadcar);
+    printf("\nAlo %s!\n\n", cadcar);
+
+    printf("Qual o seu nome: ");
+    for(i=0; i<9; i++) {
+        cadcar[i] = getchar();
+    }
+    cadcar[i]='\0';
+    printf("\nAlo %s!\n\n", cadcar);
 
 }
+
+
+
+
+
+
+
