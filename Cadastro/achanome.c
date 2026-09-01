@@ -58,10 +58,11 @@ int main() {
         p = pegacampo(area, NOME);
         
         if( strstr(p, query) ) {
+	    printf("-----------------------------------------\n");
             printf("%s\n", p);
-            printf("%s\n", pegacampo(area, FUNCAO));
+            printf("%s\n", pegacampo(area, DESCRICAO_CARGO));
             printf("%s\n", pegacampo(area, ORG_LOTACAO));
-            printf("%s\n", pegacampo(area, ATIVIDADE));
+            printf("%s\n\n", pegacampo(area, ATIVIDADE));
         }
 
     }
