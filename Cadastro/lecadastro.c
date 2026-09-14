@@ -1,4 +1,5 @@
-// Trabalhando com arquivos - le Cadastro.csv 
+// Trabalhando com arquivos - le Cadastro.csv e imprime 
+// #define contidos no Cadastro.h
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -12,11 +12,10 @@
 
 
 int main(int argc, char **argv) {
+    Registro reg;
 
     FILE *fp;
 
-    int maxtam=0, tam;
-    int conta=0;
     char area[MAXLIN];
     char query[100];
 
@@ -40,15 +39,12 @@ int main(int argc, char **argv) {
 
     while( !feof(fp) ) {
         fgets(area, MAXLIN, fp);
+
         p = pegacampo(area, NOME);
         convStr(p);
         if( strstr(p, query) ) {
-	        printf("-----------------------------------------\n");
-            printf("%s\n", p);
-            printf("%s\n", pegacampo(area, DESCRICAO_CARGO));
-            printf("%s\n", pegacampo(area, ORG_LOTACAO));
-            printf("%s\n\n", pegacampo(area, ATIVIDADE));
-            
+            leRegistro(area, &reg);
+            imprimeRegistro(&reg);
         }
 
     }

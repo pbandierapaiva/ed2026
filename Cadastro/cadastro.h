@@ -1,3 +1,20 @@
+
+typedef struct REGISTRO {
+    char id[10];   // Id_SERVIDOR_PORTAL
+    char nome[200];   // NOME
+    char matricula[100]; //MATRICULA
+    char descricao[100]; //DESCRICAO_CARGO
+    char classe[100]; //CLASSE_CARGO
+    char uorg[100]; //UORG_LOTACAO
+    char org[100]; //ORG_LOTACAO
+} Registro;
+
+typedef struct {
+    char nome[200];
+    long int avanco;
+} RegIndice;
+
+
 #define Id_SERVIDOR_PORTAL 	 0
 #define NOME 	 1
 #define CPF 	 2
