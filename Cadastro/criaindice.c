@@ -1,13 +1,20 @@
 // Cria arquivo de índice de Cadastro.csv
 
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "cadastro.h"
+#include "util.h"
 
 
-main() {
+
+int main() {
     RegIndice regind;
     Registro reg;
 
-    FILE *fp *indfp;
+    FILE *fp, *indfp;
     char area[MAXLIN];
 
     fp = fopen("/home/pub/ed/Cadastro.csv", "r");

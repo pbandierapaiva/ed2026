@@ -1,4 +1,9 @@
 
+
+
+#define MAXLIN 1000
+
+
 typedef struct REGISTRO {
     char id[10];   // Id_SERVIDOR_PORTAL
     char nome[200];   // NOME
