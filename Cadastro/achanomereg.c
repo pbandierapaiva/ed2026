@@ -7,8 +7,6 @@
 #include "cadastro.h"
 #include "util.h"
 
-#define MAXLIN 1000
-
 
 
 int main(int argc, char **argv) {

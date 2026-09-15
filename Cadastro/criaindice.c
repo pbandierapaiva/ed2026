@@ -18,12 +18,12 @@ int main() {
     char area[MAXLIN];
 
     fp = fopen("/home/pub/ed/Cadastro.csv", "r");
-    if(fp==NULL) {
+    indfp = fopen("cadastro.ind","w");
+    if(fp==NULL || indfp==NULL) {
         printf("Erro de abertura de arquivo.\n");
         exit(-1);
     }
-    indfp = fopen("cadastro.ind","w");
-
+    printf("Criando arquivo de índice.\n");
     while( !feof(fp) ) {
         regind.avanco = ftell(fp);
 
