@@ -16,6 +16,9 @@ int main() {
 
     FILE *fp, *indfp;
     char area[MAXLIN];
+    char *p;
+
+    printf("Tamanho do RegIndice %ld\n\n", sizeof(RegIndice));
 
     fp = fopen("/home/pub/ed/Cadastro.csv", "r");
     indfp = fopen("cadastro.ind","w");
@@ -29,8 +32,13 @@ int main() {
 
         fgets(area, MAXLIN, fp);
         leRegistro(area, &reg);
+        
+        p = regind.nome;
+        for(int i =0;i<200;i++) p[i]=0;
+
         strcpy(regind.nome, reg.nome);
-        fwrite(&regind, sizeof(regind), 1, indfp);
+        // strcpy(regind.nome, "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+        fwrite(&regind, sizeof(RegIndice), 1, indfp);
     }
 
     fclose(indfp);

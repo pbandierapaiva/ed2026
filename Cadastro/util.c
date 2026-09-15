@@ -9,7 +9,6 @@
 #include "util.h"
 
 void leRegistro(char *linha, Registro *regptr) {
-
         strcpy(regptr->id, pegacampo(linha, Id_SERVIDOR_PORTAL));
         strcpy(regptr->nome, pegacampo(linha, NOME));
         strcpy(regptr->matricula, pegacampo(linha, MATRICULA));
