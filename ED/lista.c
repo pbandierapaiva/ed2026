@@ -69,6 +69,27 @@ void removeNo( No **raiz, No *remover) {
     *ptrant = ptr->proximo;
     free(ptr);
 }
+No *pegaIndice(No *r, int i){
+    if(r==NULL) return NULL;
+
+    while(i && r!=NULL) {
+        r = r->proximo;
+        i--;
+    }
+    return r;
+}
+
+int len(No *p){
+    int conta = 0;
+
+    if(p==NULL) return 0;
+    do {
+        conta++;
+        p= p->proximo;
+    } while(p);
+    return conta;
+}
+
 
 void imprimeLista(No *l) {
     No *ptr;
@@ -78,6 +99,17 @@ void imprimeLista(No *l) {
         ptr = ptr->proximo;
     }
 }
+
+void imprimeListaInv(No *l) {
+    No *p;
+
+    for(int i=len(l)-1; i>=0; i--){
+        p = pegaIndice(l, i);
+        printf("%f\n", p->valor);
+    }
+
+}
+
 
 int main() {
     // Lista vazia
@@ -97,12 +129,17 @@ int main() {
 
     removeNo(&raiz, raiz);
 
-    p = *raiz;
-    if(p==NULL) return;
+    p = raiz;
+    if(p==NULL) return 0;
     while(p->proximo!=NULL)
         p = p->proximo;
 
     removeNo(&raiz, p);
 
-    imprimeLista(raiz);
+    printf("\nTamanho da lista: %d\n", len(raiz));
+    imprimeLista(raiz);    
+    printf("\nInvertida:\n");
+    
+    imprimeListaInv(raiz);
+
 }
