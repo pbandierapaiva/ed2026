@@ -1,4 +1,4 @@
-// Exemplo de lista simplesmente ligada
+// Exemplo de Fila implementada com lista simplesmente ligada
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,6 +45,23 @@ int retira(Fila **f ) {
     return val;
 }
 
+int vazia(Fila *f) {
+    return f==NULL;
+}
+
+int tamanho(Fila *f) {
+    int tam=0;
+    while(f) {
+        tam++;
+        f = f->proximo;
+    }
+    return tam;
+}
+
+int primeiro(Fila *f) {
+    if(f==NULL) return -99999;
+    return f->valor;
+}
 
 int main(){
 
