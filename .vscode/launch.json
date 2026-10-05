@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/paiva/sandbox/ed2026/ED",
-      "program": "/home/paiva/sandbox/ed2026/ED/build/Debug/outDebug",
+      "cwd": "/home/paiva/sandbox/ed2026/LinguagemC",
+      "program": "/home/paiva/sandbox/ed2026/LinguagemC/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
