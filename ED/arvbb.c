@@ -10,11 +10,9 @@ typedef struct NO {
     struct NO *fe, *fd;
 } No;
 
-
 int insereNo(No **r, int val){
     No *novo;
     No *ptr;
-
 
     ptr = *r;
     if(ptr!=NULL && val==ptr->valor) { //NÃO PODE VALORES REPETIDOS EM abb
@@ -77,17 +75,62 @@ void imprimePosOrdem(No *r){
     printf("%d\n", r->valor);
 }
 
+//// Estrutura de dados para a fila de nós da árvore
+typedef struct FILANO {
+    No *p;
+    struct FILANO *proximo;
+} Fila;
+
+void insereNoFila(Fila **f, No *p) {
+    Fila *novo;
+    Fila *ptr;
+
+    novo = malloc( sizeof(Fila) );
+    if(!novo) { // novo é NULL
+        printf("Erro de alocação.\n");
+        exit(-1);    
+    }
+    novo->p = p;
+    novo->proximo = NULL;
+
+    if(*f==NULL) {
+        *f = novo;
+        return;
+    }
+    ptr = *f;
+    while( ptr->proximo != NULL ) 
+        ptr = ptr->proximo;
+    ptr->proximo = novo;
+}
+
+No *removeNoFila(Fila **f ) {
+    Fila *p;
+    No *val;
+
+    if(*f == NULL ) return NULL;
+    p = *f;
+    *f = p->proximo;
+
+    val = p->p;
+    free(p);
+    return val;
+}
+////
+
 void imprimeNivel(No *r){
     if(r == NULL) // árvore vazia
         return;  
     
-    struct FILANO {
-        No *p;
-        struct FILANO *prox;
+    Fila *fila=NULL;
+    insereNoFila(&fila, r);
+    while(fila!=NULL){
+        No *p = removeNoFila(&fila);
+        printf("%d\n", p->valor);
+        if(p->fe!=NULL)
+            insereNoFila(&fila, p->fe);
+        if(p->fd!=NULL)
+            insereNoFila(&fila, p->fd);
     }
-
-     
-
 }
 
 int main() {
@@ -109,4 +152,7 @@ int main() {
     imprimePreOrdem(raiz);
     printf("\nPós-ordem:\n");
     imprimePosOrdem(raiz);
+
+    printf("\nNível:\n");
+    imprimeNivel(raiz);
 }
