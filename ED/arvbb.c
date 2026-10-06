@@ -133,6 +133,17 @@ void imprimeNivel(No *r){
     }
 }
 
+No *busca(No *r, int v) {
+    if(r==NULL) // sub-árvore vazia
+        return NULL;
+    if( v == r->valor )
+        return r;
+    if( v < r->valor ) 
+        return busca(r->fe, v);
+    return busca(r->fd, v);
+}
+
+
 int main() {
     No *raiz=NULL;
 
@@ -155,4 +166,7 @@ int main() {
 
     printf("\nNível:\n");
     imprimeNivel(raiz);
+
+    No *p = busca(raiz,40);
+    if(p) printf("Valor: %d\n", p->valor);
 }

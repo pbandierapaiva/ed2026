@@ -19,6 +19,12 @@ typedef struct {
     long int avanco;
 } RegIndice;
 
+typedef struct ABB {
+    RegIndice registro;
+    struct ABB *fe, *fd;
+}   IndiceABB;
+
+
 
 #define Id_SERVIDOR_PORTAL 	 0
 #define NOME 	 1

@@ -26,7 +26,8 @@ int main() {
         printf("Erro de abertura de arquivo.\n");
         exit(-1);
     }
-    printf("Criando arquivo de índice.\n");
+    printf("Criando arquivo de índice.\n");        
+    fgets(area, MAXLIN, fp);
     while( !feof(fp) ) {
         regind.avanco = ftell(fp);
 
