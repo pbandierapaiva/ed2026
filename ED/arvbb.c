@@ -143,16 +143,97 @@ No *busca(No *r, int v) {
     return busca(r->fd, v);
 }
 
+int altura(No *r){
+    int altEsq, altDir;
+
+    if(r==NULL) return 0;
+    altEsq = altura(r->fe);
+    altDir = altura(r->fd);
+    if(altEsq>altDir)
+        return altEsq + 1;
+    else
+        return altDir + 1;
+}
+
+void rotacaoEsq(No **raiz) {
+    No *p, *z;
+    p = *raiz;
+    z = p->fd;
+    p->fd = z->fe;
+    z->fe = p;
+    *raiz = z;
+}
+
+void rotacaoDir(No **raiz) {
+    No *p, *u;
+    p = *raiz;
+    u = p->fe;
+    p->fe = u->fd;
+    u->fd = p;
+    *raiz = u;
+}
+
+void rotacaoDDir(No **raiz){
+    No *p;
+
+    p = *raiz;
+
+    rotacaoEsq( &(p->fe) );
+    rotacaoDir( raiz );
+}
+
+void rotacaoDEsq(No **raiz){
+    No *p;
+
+    p = *raiz;
+
+    rotacaoDir( &(p->fd) );
+    rotacaoEsq( raiz );
+}
+
+int fb(No *r){
+    return altura(r->fd) - altura(r->fe);
+}
+
+int checaAVL(No *r){
+    int fatorBal;
+    fatorBal = fb(r);
+    if( fatorBal>1 || fatorBal<-1)
+        return 0;
+    if( checaAVL(r->fd) && checaAVL(r->fe) )
+        return 1;
+    return 0;
+}
+
 
 int main() {
     No *raiz=NULL;
 
-    insereNo(&raiz, 30);
-    insereNo(&raiz, 60);
-    insereNo(&raiz, 70);
-    insereNo(&raiz, 20);
-    insereNo(&raiz, 40);
-    insereNo(&raiz, 50);
+    insereNo(&raiz, 10);
+    insereNo(&raiz, 5);
+    insereNo(&raiz, 7);
+    // insereNo(&raiz, 40);
+    // insereNo(&raiz, 50);
+    // insereNo(&raiz, 60);
+
+    printf("Altura: %d\n", altura(raiz));
+    rotacaoDDir( &raiz );
+    printf("Altura: %d\n", altura(raiz));
+  
+
+/*
+    printf("É AVL: %d ", checaAVL(raiz) );
+    printf("Altura: %d\n", altura(raiz));
+
+    rotacaoEsq( &(raiz->fd->fd->fd) );
+    rotacaoEsq(&raiz);
+    
+    printf("É AVL: %d ", checaAVL(raiz) );
+    printf("Altura: %d\n", altura(raiz));   
+    
+    rotacaoEsq(&(raiz->fd));
+    printf("É AVL: %d ", checaAVL(raiz) );
+    printf("Altura: %d\n", altura(raiz));
 
     imprimeEmOrdem(raiz);
 
@@ -169,4 +250,5 @@ int main() {
 
     No *p = busca(raiz,40);
     if(p) printf("Valor: %d\n", p->valor);
+*/
 }
