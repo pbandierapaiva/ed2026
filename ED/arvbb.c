@@ -10,6 +10,11 @@ typedef struct NO {
     struct NO *fe, *fd;
 } No;
 
+int modulo(int v){
+    if(v>=0) return v;
+    return -v;
+}
+
 int insereNo(No **r, int val){
     No *novo;
     No *ptr;
@@ -19,22 +24,19 @@ int insereNo(No **r, int val){
         printf("Valores repetidos, desconsiderando\n");
         return(1);
     }
-    novo = malloc( sizeof(No) );
-    novo->valor = val;
-    novo->fe = NULL;
-    novo->fd = NULL;
-    if(!novo) { // novo é NULL
-        printf("Erro de alocação.\n");
-        exit(-1);    
-    }  
 
     if(*r ==NULL){
+        novo = malloc( sizeof(No) );
+        novo->valor = val;
+        novo->fe = NULL;
+        novo->fd = NULL;
+        if(!novo) { // novo é NULL
+            printf("Erro de alocação.\n");
+            exit(-1);    
+        }  
         *r = novo;
         return 0;
     }
-
-
-
     if( ptr->valor > val )  //val é menor que o valor no Nó
         insereNo( &(ptr->fe), val );
     else 
@@ -205,20 +207,69 @@ int checaAVL(No *r){
     return 0;
 }
 
+int insereNoAVL(No **r, int val){
+    No *novo;
+    No *ptr;
+    int valfb;
+
+    ptr = *r;
+    if(ptr!=NULL && val==ptr->valor) { //NÃO PODE VALORES REPETIDOS EM abb
+        printf("Valores repetidos, desconsiderando\n");
+        return(1);
+    }
+    if(*r ==NULL){
+        novo = malloc( sizeof(No) );
+        novo->valor = val;
+        novo->fe = NULL;
+        novo->fd = NULL;
+        if(!novo) { // novo é NULL
+            printf("Erro de alocação.\n");
+            exit(-1);    
+        }  
+        *r = novo;
+        return 0;
+    }
+    if( ptr->valor > val )  //val é menor que o valor no Nó
+        insereNoAVL( &(ptr->fe), val );
+    else 
+        insereNoAVL( &(ptr->fd), val );
+    
+    valfb = fb(*r);
+    if( modulo( valfb ) >1 ) {
+        if(valfb>0) {  // +2
+            if( fb(ptr->fd) > 0 )
+                rotacaoEsq(r);
+            else
+                rotacaoDEsq(r);
+        }
+        else {
+            if( fb(ptr->fe) > 0 )
+                rotacaoDDir(r);
+            else
+                rotacaoDir(r);
+        }
+
+    }
+    return 0;
+}
+
 
 int main() {
     No *raiz=NULL;
 
-    insereNo(&raiz, 10);
-    insereNo(&raiz, 5);
-    insereNo(&raiz, 7);
-    // insereNo(&raiz, 40);
-    // insereNo(&raiz, 50);
-    // insereNo(&raiz, 60);
+    insereNoAVL(&raiz, 10);
+    insereNoAVL(&raiz, 5);
+    insereNoAVL(&raiz, 7);  // *
+    insereNoAVL(&raiz, 40);
+    insereNoAVL(&raiz, 50);
+    insereNoAVL(&raiz, 60);
+
 
     printf("Altura: %d\n", altura(raiz));
-    rotacaoDDir( &raiz );
-    printf("Altura: %d\n", altura(raiz));
+
+    // printf("Altura: %d\n", altura(raiz));
+    // rotacaoDDir( &raiz );
+    // printf("Altura: %d\n", altura(raiz));
   
 
 /*
