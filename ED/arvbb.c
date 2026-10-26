@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 typedef struct NO {
     int valor;
     struct NO *fe, *fd;
@@ -77,7 +76,7 @@ void imprimePosOrdem(No *r){
     printf("%d\n", r->valor);
 }
 
-//// Estrutura de dados para a fila de nós da árvore
+//// Estrutura de dados para a fila de nós da árvore ////
 typedef struct FILANO {
     No *p;
     struct FILANO *proximo;
@@ -117,7 +116,7 @@ No *removeNoFila(Fila **f ) {
     free(p);
     return val;
 }
-////
+////////////////////////////////////////////////////////
 
 void imprimeNivel(No *r){
     if(r == NULL) // árvore vazia
@@ -199,12 +198,43 @@ int fb(No *r){
 
 int checaAVL(No *r){
     int fatorBal;
+    if(r==NULL) return 1;
     fatorBal = fb(r);
     if( fatorBal>1 || fatorBal<-1)
         return 0;
     if( checaAVL(r->fd) && checaAVL(r->fe) )
         return 1;
     return 0;
+}
+
+void fazAVL(No **r){
+    No *ptr;
+    int fatbal;
+
+    ptr = *r;
+    if(ptr==NULL) return;
+
+    if( checaAVL(ptr) ) return;
+
+    fatbal =fb(ptr);
+
+    if( modulo(fatbal)>1 ) {
+        if(fatbal>0) {   // FB = +2
+            if(fb(ptr->fd)<0)
+                rotacaoDEsq( &(ptr->fd) );
+            else
+                rotacaoEsq( &(ptr->fd) );
+        }
+        else {
+             if(fb(ptr->fe)<0)
+                rotacaoDDir( &(ptr->fe) );
+            else
+                rotacaoDir( &(ptr->fe) );           
+
+        }
+    }
+    fazAVL( &(ptr->fe) );
+    fazAVL( &(ptr->fd) );
 }
 
 int insereNoAVL(No **r, int val){
@@ -253,10 +283,19 @@ int insereNoAVL(No **r, int val){
     return 0;
 }
 
+// void percorreArvInsereRaiz(No **raiz, No *arv, int valor ) {
+//     if(arv==NULL) return;
+//     insereNoAVL(raiz, arv->valor);
+//     percorreArvInsereRaiz(raiz, &(arv->fe), valor);
+//     percorreArvInsereRaiz(raiz, &(arv->fd), valor);
+//     free(arv);
+// }
+
 void insereArvore(No **r, No *arv) {
     No *ptr;
 
     ptr=*r;
+
     if(!ptr) {
         *r = arv;
         return;
@@ -280,7 +319,6 @@ No **achaPtrNo(No **raiz, int val){
     else
         achaPtrNo( &(ptr->fe), val); 
 }
-
 
 void removeNo(No **no) {
     No *ptr;
@@ -308,57 +346,88 @@ void removeNo(No **no) {
         }
     }
     free(ptr);
-}
 
+}
 
 int main() {
     No *raiz=NULL;
     No *r2=NULL;
 
     No **ptr;
-
-    insereNoAVL(&raiz, 1);
-    insereNoAVL(&raiz, 2);
-    insereNoAVL(&raiz, 3);  // *
-    insereNoAVL(&raiz, 4);
+    insereNoAVL(&raiz, 10);
     insereNoAVL(&raiz, 5);
-    insereNoAVL(&raiz, 6);
-    insereNoAVL(&raiz, 11);
+    insereNoAVL(&raiz, 16);  // *
+    insereNoAVL(&raiz, 9);
     insereNoAVL(&raiz, 12);
-    insereNoAVL(&raiz, 13);  // *
-    insereNoAVL(&raiz, 14);
-    insereNoAVL(&raiz, 15);
-    insereNoAVL(&raiz, 16);
-    insereNoAVL(&r2, 7);
-    insereNoAVL(&r2, 8);
-    insereNoAVL(&r2, 9);
-    insereNoAVL(&r2, 10);        
-    
-    insereArvore(&raiz, r2);
-
+    insereNoAVL(&raiz, 11);
     printf("Altura: %d\n", altura(raiz));
-    // imprimeNivel(raiz);
-    printf("Em ordem:\n");
+
+    removeNo(&raiz);
+    printf("Altura: %d\n", altura(raiz));
+
+    printf("Imprimindo - Em-ordem: \n");
     imprimeEmOrdem(raiz);
 
-    ptr = achaPtrNo(&raiz, 8 );
-
-    if(ptr) {
-        printf("Encontrou %d\n", (*ptr)->valor);
-        removeNo(ptr);
-    }
-
-    ptr = achaPtrNo(&raiz, 12 );
-    if(ptr) {
-        printf("Encontrou %d\n", (*ptr)->valor);
-        removeNo(ptr);
-    }
-
-    imprimeEmOrdem(raiz);
     if(checaAVL(raiz))
         printf("Árvore AVL!\n");
-    else 
-        printf("Árvore NÃO AVL!\n");
+    else {
+        printf("Árvore NÃO AVL! Corrigindo...\n");
+        fazAVL(&raiz);
+        if(checaAVL(raiz)){
+            printf("Árvore AVL!\n");
+        }
+        else {
+            printf("DEU PAU ===> Árvore NÃO AVL!\n");
+        }
+    }
+
+
+    // *
+
+
+    // insereNoAVL(&raiz, 1);
+    // insereNoAVL(&raiz, 2);
+    // insereNoAVL(&raiz, 3);  // *
+    // insereNoAVL(&raiz, 4);
+    // insereNoAVL(&raiz, 5);
+    // insereNoAVL(&raiz, 6);
+    // insereNoAVL(&raiz, 11);
+    // insereNoAVL(&raiz, 12);
+    // insereNoAVL(&raiz, 13);  // *
+    // insereNoAVL(&raiz, 14);
+    // insereNoAVL(&raiz, 15);
+    // insereNoAVL(&raiz, 16);
+    // // árvore r2
+    // insereNoAVL(&r2, 7);
+    // insereNoAVL(&r2, 8);
+    // insereNoAVL(&r2, 9);
+    // insereNoAVL(&r2, 10);        
+    
+    // insereArvore(&raiz, r2);
+
+    // printf("Altura: %d\n", altura(raiz));
+    // // imprimeNivel(raiz);
+    // printf("Em ordem:\n");
+    // imprimeEmOrdem(raiz);
+
+    // ptr = achaPtrNo(&raiz, 8 );
+
+    // if(ptr) {
+    //     printf("Encontrou %d\n", (*ptr)->valor);
+    //     removeNo(ptr);
+    // }
+
+    // ptr = achaPtrNo(&raiz, 12 );
+    // if(ptr) {
+    //     printf("Encontrou %d\n", (*ptr)->valor);
+    //     removeNo(ptr);
+    // }
+
+    // imprimeEmOrdem(raiz);
+    // if(checaAVL(raiz))
+    //     printf("Árvore AVL!\n");
+    // else 
+    //     printf("Árvore NÃO AVL!\n");
         
 
     // printf("Altura: %d\n", altura(raiz));
