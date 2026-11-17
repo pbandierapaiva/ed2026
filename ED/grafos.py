@@ -102,11 +102,11 @@ def kruskal(g):
     return agm
 
 g = Grafo()
-g.add_aresta("A","B",1)
-g.add_aresta("A","C",1)
+g.add_aresta("A","B",4)
+g.add_aresta("A","C",2)
 g.add_aresta("B","C",1)
-g.add_aresta("C","E",1)
-g.add_aresta("D","E",1)
-g.add_aresta("F","E",1)
-g.add_aresta("D","F",1)
-g.add_aresta("D","B",1)
+g.add_aresta("C","E",10)
+g.add_aresta("D","E",2)
+g.add_aresta("F","E",3)
+g.add_aresta("D","F",6)
+g.add_aresta("D","B",5)
