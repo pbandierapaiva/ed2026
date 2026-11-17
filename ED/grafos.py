@@ -28,6 +28,13 @@ class Grafo:
         for verticeadj in self.adj[v]:
             self.adj[verticeadj][v]
         del self.adj[v]
+    def arestas(self):
+        vistos = set()
+        for u in self.adj:
+            for v, w in self.adj[u].items():
+                if (v, u) not in vistos:
+                    vistos.add((u, v))
+                    yield (u, v, w)
 
 def bfs(g,s): # busca em largura breadth-first
     dist = {s:0}
@@ -58,6 +65,41 @@ def dijkstra(g, s):
                 pai[v] = u
                 heapq.heappush(heap, (dist[v], v))
     return dist, pai
+
+
+
+class UnionFind:
+    def __init__(self, elementos):
+        self.pai = {x: x for x in elementos}
+        self.rank = {x: 0 for x in elementos}
+
+    def find(self, x):
+        if self.pai[x] != x:     # compressao
+            self.pai[x] = self.find(self.pai[x])
+        return self.pai[x]
+
+    def union(self, x, y):
+        rx, ry = self.find(x), self.find(y)
+        if rx == ry:
+            return False         # mesmo conjunto
+        if self.rank[rx] < self.rank[ry]:
+            rx, ry = ry, rx
+        self.pai[ry] = rx        # uniao por rank
+        if self.rank[rx] == self.rank[ry]:
+            self.rank[rx] += 1
+        return True
+
+
+def kruskal(g):
+    uf = UnionFind(g.vertices())
+    agm = []
+    n = len(g.vertices())
+    for u, v, w in sorted(g.arestas(), key=lambda a: a[2]):
+        if uf.union(u, v):
+            agm.append((u, v, w))
+            if len(agm) == n - 1:
+                break
+    return agm
 
 g = Grafo()
 g.add_aresta("A","B",1)
